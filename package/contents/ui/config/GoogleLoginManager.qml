@@ -11,6 +11,10 @@ Item {
 		showDebug: plasmoid.configuration.debugging
 	}
 
+	ExecUtil { id: executable }
+
+	property bool isLoggingIn: false
+
 	// Active Session
 	readonly property bool isLoggedIn: !!plasmoid.configuration.accessToken
 	readonly property bool needsRelog: {
@@ -74,46 +78,37 @@ Item {
 
 
 	//---
-	readonly property string authorizationCodeUrl: {
-		var url = 'https://accounts.google.com/o/oauth2/v2/auth'
-		url += '?scope=' + encodeURIComponent('https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/tasks')
-		url += '&response_type=code'
-		url += '&redirect_uri=' + encodeURIComponent('urn:ietf:wg:oauth:2.0:oob')
-		url += '&client_id=' + encodeURIComponent(plasmoid.configuration.latestClientId)
-		return url
+	// Resolve path relative to this QML file (config/ -> ../../scripts/)
+	readonly property string scriptDir: {
+		var url = Qt.resolvedUrl("../../scripts/").toString()
+		return url.replace(/^file:\/\//, "")
 	}
 
-	function fetchAccessToken(args) {
-		var url = 'https://www.googleapis.com/oauth2/v4/token'
-		Requests.post({
-			url: url,
-			data: {
-				client_id: plasmoid.configuration.latestClientId,
-				client_secret: plasmoid.configuration.latestClientSecret,
-				code: args.authorizationCode,
-				grant_type: 'authorization_code',
-				redirect_uri: 'urn:ietf:wg:oauth:2.0:oob',
-			},
-		}, function(err, data, xhr) {
-			logger.debug('/oauth2/v4/token Response', data)
-
-			// Check for errors
-			if (err) {
-				handleError(err, null)
+	function fetchAccessToken() {
+		isLoggingIn = true
+		var cmd = [
+			'python3',
+			scriptDir + "google_redirect.py",
+			'--client_id', plasmoid.configuration.latestClientId,
+			'--client_secret', plasmoid.configuration.latestClientSecret,
+		]
+		executable.exec(cmd, function(cmd, exitCode, exitStatus, stdout, stderr) {
+			isLoggingIn = false
+			if (exitCode !== 0) {
+				handleError(stderr.trim() || stdout.trim(), null)
 				return
 			}
+			var data
 			try {
-				data = JSON.parse(data)
+				data = JSON.parse(stdout)
 			} catch (e) {
-				handleError('Error parsing /oauth2/v4/token data as JSON', null)
+				handleError('Error parsing token response as JSON', null)
 				return
 			}
 			if (data && data.error) {
-				handleError(err, data)
+				handleError(null, data)
 				return
 			}
-
-			// Ready
 			updateAccessToken(data)
 		})
 	}
