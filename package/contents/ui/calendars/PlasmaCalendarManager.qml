@@ -1,7 +1,6 @@
-import QtQuick 2.0
-
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.calendar 2.0 as PlasmaCalendar
+import QtQuick
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.workspace.calendar as PlasmaCalendar
 
 import "../lib"
 import "../Shared.js" as Shared
@@ -73,7 +72,7 @@ CalendarManager {
 		// KHolidays
 		calendarList.push({
 			"calendarId": "plasma_Holidays",
-			"backgroundColor": "" + theme.highlightColor,
+			"backgroundColor": "" + Kirigami.Theme.highlightColor,
 			"accessRole": "reader",
 			"isTasklist": false,
 		})
@@ -186,7 +185,7 @@ CalendarManager {
 			var calendarId = parseCalendarId(dayItem)
 			var eventId = calendarId + "_" + startDateTime.getTime() + "_" + endDateTime.getTime()
 
-			var eventColor = dayItem.eventColor || theme.highlightColor
+			var eventColor = dayItem.eventColor || Kirigami.Theme.highlightColor
 			eventColor = "" + eventColor // Cast to string, as dayItem.eventColor is a QColor which JSON treats as an object
 
 			var event = {

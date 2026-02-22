@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.kirigami as Kirigami
 
 import "../Shared.js" as Shared
 import "../lib/Async.js" as Async
@@ -74,7 +74,7 @@ CalendarManager {
 				calendarList.push({
 					id: tasklist.id,
 					summary: tasklist.title,
-					backgroundColor: theme.highlightColor.toString(),
+					backgroundColor: Kirigami.Theme.highlightColor.toString(),
 					accessRole: 'owner',
 					isTasklist: true,
 				})

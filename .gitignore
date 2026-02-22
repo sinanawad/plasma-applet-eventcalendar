@@ -3,4 +3,3 @@
 *.jsc
 *.mo
 /dist
-/package/metadata.json

@@ -1,17 +1,17 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents3
-import org.kde.plasma.extras 2.0 as PlasmaExtras
-import org.kde.plasma.private.digitalclock 1.0 as DigitalClock
+import QtQuick
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.components as PlasmaComponents3
+import org.kde.plasma.extras as PlasmaExtras
+import org.kde.plasma.private.digitalclock as DigitalClock
 
 Item {
 	id: tooltipContentItem
 
-	property int preferredTextWidth: units.gridUnit * 20
+	property int preferredTextWidth: Kirigami.Units.gridUnit * 20
 
-	width: childrenRect.width + units.gridUnit
-	height: childrenRect.height + units.gridUnit
+	width: childrenRect.width + Kirigami.Units.gridUnit
+	height: childrenRect.height + Kirigami.Units.gridUnit
 
 	LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
 	LayoutMirroring.childrenInherit: true
@@ -54,19 +54,19 @@ Item {
 		anchors {
 			left: parent.left
 			top: parent.top
-			margins: units.gridUnit / 2
+			margins: Kirigami.Units.gridUnit / 2
 		}
-		spacing: units.largeSpacing
+		spacing: Kirigami.Units.largeSpacing
 
 		RowLayout {
-			spacing: units.largeSpacing
+			spacing: Kirigami.Units.largeSpacing
 
-			PlasmaCore.IconItem {
+			Kirigami.Icon {
 				id: tooltipIcon
 				source: "preferences-system-time"
 				Layout.alignment: Qt.AlignTop
 				visible: true
-				implicitWidth: units.iconSizes.medium
+				implicitWidth: Kirigami.Units.iconSizes.medium
 				Layout.preferredWidth: implicitWidth
 				Layout.preferredHeight: implicitWidth
 			}

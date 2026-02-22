@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick
 
 import "../ErrorType.js" as ErrorType
 import "../Shared.js" as Shared

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick
 
 import "./calendars"
 
@@ -10,9 +10,9 @@ CalendarManager {
 	property var eventsData: { "items": [] }
 
 	Component.onCompleted: {
-		bindSignals(googleCalendarManager)
-		bindSignals(googleTasksManager)
-		bindSignals(plasmaCalendarManager)
+		// bindSignals(googleCalendarManager)
+		// bindSignals(googleTasksManager)
+		// bindSignals(plasmaCalendarManager)
 		// bindSignals(icalManager)
 		// bindSignals(debugCalendarManager)
 		// bindSignals(debugGoogleCalendarManager)
@@ -76,23 +76,23 @@ CalendarManager {
 	}
 
 	DebugCalendarManager { id: debugCalendarManager }
-	DebugGoogleCalendarManager { id: debugGoogleCalendarManager }
+	// DebugGoogleCalendarManager { id: debugGoogleCalendarManager }
 
-	GoogleApiSession {
-		id: googleApiSession
-	}
-	GoogleCalendarManager {
-		id: googleCalendarManager
-		session: googleApiSession
-	}
-	GoogleTasksManager {
-		id: googleTasksManager
-		session: googleApiSession
-	}
+	// GoogleApiSession {
+	// 	id: googleApiSession
+	// }
+	// GoogleCalendarManager {
+	// 	id: googleCalendarManager
+	// 	session: googleApiSession
+	// }
+	// GoogleTasksManager {
+	// 	id: googleTasksManager
+	// 	session: googleApiSession
+	// }
 
-	PlasmaCalendarManager {
-		id: plasmaCalendarManager
-	}
+	// PlasmaCalendarManager {
+	// 	id: plasmaCalendarManager
+	// }
 
 	//---
 	property var deferredUpdate: Timer {

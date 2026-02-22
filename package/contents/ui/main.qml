@@ -1,15 +1,19 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Layouts
 
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents3
-import org.kde.plasma.private.digitalclock 1.0 as DigitalClock
-import org.kde.kquickcontrolsaddons 2.0 // KCMShell
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components as PlasmaComponents3
+import org.kde.plasma.plasma5support as Plasma5Support
+import org.kde.config as KConfig
+import org.kde.kcmutils as KCMUtils
+
+import org.kde.plasma.private.digitalclock as DigitalClock
 
 import "./lib"
 
-Item {
+PlasmoidItem {
 	id: root
 
 	Logger {
@@ -50,7 +54,7 @@ Item {
 		}
 	}
 
-	Plasmoid.toolTipItem: Loader {
+	toolTipItem: Loader {
 		id: tooltipLoader
 
 		Layout.minimumWidth: item ? item.width : 0
@@ -61,8 +65,7 @@ Item {
 		source: "TooltipView.qml"
 	}
 
-	// org.kde.plasma.mediacontrollercompact
-	PlasmaCore.DataSource {
+	Plasma5Support.DataSource {
 		id: executable
 		engine: "executable"
 		connectedSources: []
@@ -194,7 +197,7 @@ Item {
 			id: pinButton
 			visible: isPinVisible
 			anchors.right: parent.right
-			width: Math.round(units.gridUnit * 1.25)
+			width: Math.round(Kirigami.Units.gridUnit * 1.25)
 			height: width
 			checkable: true
 			icon.name: "window-pin"
@@ -207,65 +210,37 @@ Item {
 	Plasmoid.backgroundHints: plasmoid.configuration.showBackground ? PlasmaCore.Types.DefaultBackground : PlasmaCore.Types.NoBackground
 
 	property bool isDesktopContainment: plasmoid.location == PlasmaCore.Types.Floating
-	Plasmoid.preferredRepresentation: isDesktopContainment ? Plasmoid.fullRepresentation : Plasmoid.compactRepresentation
-	Plasmoid.compactRepresentation: clockComponent
-	Plasmoid.fullRepresentation: popupComponent
+	preferredRepresentation: isDesktopContainment ? Plasmoid.fullRepresentation : Plasmoid.compactRepresentation
+	compactRepresentation: clockComponent
+	fullRepresentation: popupComponent
 
-	function action_KCMClock() {
-		// Note: https://invent.kde.org/plasma/plasma-workspace/-/commit/4e34ba26e6fc53dc47e7079d863e15408534dcf6
-		// Note: KCMShell.open uses kcmshell5 which converts "translations" => "kcm_translations".
-		// Note: https://github.com/KDE/kde-cli-tools/blob/master/kcmshell/main.cpp
-		// Note: systemsettings5 needs the exact name.
-		// TODO: Use KCMShell.openSystemSettings("kcm_clock") once we no longer need to support Plasma 5.23
-		KCMShell.open([
-			"kcm_clock", // Plasma 5.24
-			"clock" // Plasma 5.23
-		])
-	}
-
-	function action_KCMTranslations() {
-		// Note: https://invent.kde.org/plasma/plasma-workspace/-/commit/68b2a75568563223cc79d585bdae7ca7e0aeb54a
-		KCMShell.open([
-			"kcm_translations", // Plasma 5.15
-			"translations" // Plasma 5.14
-		])
-	}
-
-	function action_KCMFormats() {
-		KCMShell.open([
-			"kcm_formats", // Plasma 5.24
-			"formats" // Plasma 5.23
-		])
-	}
+	Plasmoid.contextualActions: [
+		PlasmaCore.Action {
+			id: clipboardAction
+			text: i18n("Copy to Clipboard")
+			icon.name: "edit-copy"
+		},
+		PlasmaCore.Action {
+			text: i18nd("plasma_applet_org.kde.plasma.digitalclock", "Adjust Date and Time…")
+			// icon.name: "clock"
+			icon.name: "preferences-system-time"
+			visible: KConfig.KAuthorized.authorize("kcm_clock")
+			onTriggered: KCMUtils.KCMLauncher.openSystemSettings("kcm_clock")
+		},
+		PlasmaCore.Action {
+			// text: i18nd("plasma_applet_org.kde.plasma.digitalclock", "Set Time Format…")
+			// icon.name: "gnumeric-format-thousand-separator"
+			text: i18n("Set Language…")
+			icon.name: "preferences-desktop-locale"
+			visible: KConfig.KAuthorized.authorizeControlModule("kcm_regionandlang")
+			onTriggered: KCMUtils.KCMLauncher.openSystemSettings("kcm_regionandlang")
+		}
+	]
 
 	Component.onCompleted: {
-		plasmoid.setAction("clipboard", i18nd("plasma_applet_org.kde.plasma.digitalclock", "Copy to Clipboard"), "edit-copy")
-		DigitalClock.ClipboardMenu.setupMenu(plasmoid.action("clipboard"))
+		DigitalClock.ClipboardMenu.setupMenu(clipboardAction)
 
-		// An uninstalled KCM like 'user_manager.desktop' in Plasma 5.20 is returned
-		// in the output list, so we need to check if user has permission for both.
-		if (KCMShell.authorize([
-			"kcm_clock.desktop", // Plasma 5.24
-			"clock.desktop" // Plasma 5.23
-		]).length == 2) {
-			// DigitalClock uses symbolic "clock" icon in Plasma 5.24
-			plasmoid.setAction("KCMClock", i18nd("plasma_applet_org.kde.plasma.digitalclock", "Adjust Date and Time…"), "preferences-system-time")
-		}
-		if (KCMShell.authorize([
-			"kcm_translations.desktop", // Plasma 5.15
-			"translations.desktop", // Plasma 5.14
-		]).length == 2) {
-			plasmoid.setAction("KCMTranslations", i18n("Set Language…"), "preferences-desktop-locale")
-		}
-		if (KCMShell.authorize([
-			"kcm_formats.desktop", // Plasma 5.24
-			"formats.desktop" // Plasma 5.23
-		]).length == 2) {
-			// DigitalClock uses symbolic "gnumeric-format-thousand-separator" icon in Plasma 5.24
-			plasmoid.setAction("KCMFormats", i18n("Set Locale…"), "preferences-desktop-locale")
-		}
-
-		// plasmoid.action("configure").trigger()
+		// Plasmoid.internalAction("configure").trigger()
 	}
 
 	// Timer {

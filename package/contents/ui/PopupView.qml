@@ -1,8 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents3
+import QtQuick
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.components as PlasmaComponents3
 
 import "lib"
 import "Shared.js" as Shared
@@ -14,18 +13,18 @@ MouseArea {
 	onClicked: focus = true
 
 	property int padding: 0 // Assigned in main.qml
-	property int spacing: 10 * units.devicePixelRatio
+	property int spacing: 10 * Screen.devicePixelRatio
 
-	property int topRowHeight: plasmoid.configuration.topRowHeight * units.devicePixelRatio
-	property int bottomRowHeight: plasmoid.configuration.bottomRowHeight * units.devicePixelRatio
-	property int singleColumnMonthViewHeight: plasmoid.configuration.monthHeightSingleColumn * units.devicePixelRatio
+	property int topRowHeight: plasmoid.configuration.topRowHeight * Screen.devicePixelRatio
+	property int bottomRowHeight: plasmoid.configuration.bottomRowHeight * Screen.devicePixelRatio
+	property int singleColumnMonthViewHeight: plasmoid.configuration.monthHeightSingleColumn * Screen.devicePixelRatio
 
-	// DigitalClock LeftColumn minWidth: units.gridUnit * 22
-	// DigitalClock RightColumn minWidth: units.gridUnit * 14
+	// DigitalClock LeftColumn minWidth: Kirigami.Units.gridUnit * 22
+	// DigitalClock RightColumn minWidth: Kirigami.Units.gridUnit * 14
 	// 14/(22+14) * 400 = 156
 	// rightColumnWidth=156 looks nice but is very thin for listing events + date + weather.
-	property int leftColumnWidth: plasmoid.configuration.leftColumnWidth * units.devicePixelRatio // Meteogram + MonthView
-	property int rightColumnWidth: plasmoid.configuration.rightColumnWidth * units.devicePixelRatio // TimerView + AgendaView
+	property int leftColumnWidth: plasmoid.configuration.leftColumnWidth * Screen.devicePixelRatio // Meteogram + MonthView
+	property int rightColumnWidth: plasmoid.configuration.rightColumnWidth * Screen.devicePixelRatio // TimerView + AgendaView
 
 	property bool singleColumn: !showAgenda || !showCalendar
 	property bool singleColumnFullHeight: !plasmoid.configuration.twoColumns && showAgenda && showCalendar
@@ -33,9 +32,9 @@ MouseArea {
 
 	Layout.minimumWidth: {
 		if (twoColumns) {
-			return units.gridUnit * 28
+			return Kirigami.Units.gridUnit * 28
 		} else {
-			return units.gridUnit * 14
+			return Kirigami.Units.gridUnit * 14
 		}
 	}
 	Layout.preferredWidth: {
@@ -46,7 +45,7 @@ MouseArea {
 		}
 	}
 
-	Layout.minimumHeight: units.gridUnit * 14
+	Layout.minimumHeight: Kirigami.Units.gridUnit * 14
 	Layout.preferredHeight: {
 		if (singleColumnFullHeight) {
 			return plasmoid.screenGeometry.height
@@ -123,8 +122,8 @@ MouseArea {
 			PropertyChanges { target: popup
 				// Use the same size as the digitalclock popup
 				// since we don't need more space to fit more agenda items.
-				Layout.preferredWidth: 378 * units.devicePixelRatio
-				Layout.preferredHeight: 378 * units.devicePixelRatio
+				Layout.preferredWidth: 378 * Screen.devicePixelRatio
+				Layout.preferredHeight: 378 * Screen.devicePixelRatio
 			}
 			PropertyChanges { target: monthView
 				Layout.preferredWidth: -1
@@ -259,9 +258,9 @@ MouseArea {
 			Rectangle {
 				id: meteogramMessageBox
 				anchors.fill: parent
-				anchors.margins: units.smallSpacing
+				anchors.margins: Kirigami.Units.smallSpacing
 				color: "transparent"
-				border.color: theme.buttonBackgroundColor
+				border.color: Kirigami.Theme.buttonBackgroundColor
 				border.width: 1
 
 				readonly property string message: {
@@ -394,7 +393,7 @@ MouseArea {
 				anchors.left: parent.left
 				anchors.bottom: parent.bottom
 				anchors.right: refreshButton.left
-				anchors.margins: PlasmaCore.Units.smallSpacing
+				anchors.margins: Kirigami.Units.smallSpacing
 				text: logic.currentErrorMessage
 			}
 

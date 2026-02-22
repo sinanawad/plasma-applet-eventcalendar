@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import org.kde.plasma.plasmoid 2.0 // root.Plasmoid.___
+import QtQuick
+import org.kde.plasma.plasmoid // root.Plasmoid.___
 import "./ErrorType.js" as ErrorType
 import "./weather/WeatherApi.js" as WeatherApi
 

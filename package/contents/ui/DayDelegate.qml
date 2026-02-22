@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-
-import org.kde.plasma.calendar 2.0
+import QtQuick
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.core as PlasmaCore
+// import org.kde.plasma.workspace.calendar as PlasmaCalendar
 
 import "LocaleFuncs.js" as LocaleFuncs
 
@@ -67,7 +67,7 @@ MouseArea {
 		// this is needed here as the text is first rendered, counting with the default root.cellHeight
 		// then root.cellHeight actually changes to whatever it should be, but the Label does not pick
 		// it up after that, so we need to change it explicitly after the cell size changes
-		// label.font.pixelSize = Math.max(theme.smallestFont.pixelSize, Math.floor(daysCalendar.cellHeight / 3))
+		// label.font.pixelSize = Math.max(Kirigami.Theme.smallFont.pixelSize, Math.floor(daysCalendar.cellHeight / 3))
 	}
 
 	Rectangle {
@@ -87,8 +87,8 @@ MouseArea {
 				return 0
 			}
 		}
-		Behavior on opacity { NumberAnimation { duration: units.shortDuration*2 } }
-		color: theme.textColor
+		Behavior on opacity { NumberAnimation { duration: Kirigami.Units.shortDuration*2 } }
+		color: Kirigami.Theme.textColor
 		radius: dayStyle.radius
 	}
 
@@ -109,8 +109,8 @@ MouseArea {
 			}
 		}
 		// visible: !today
-		Behavior on opacity { NumberAnimation { duration: units.shortDuration*2 } }
-		color: theme.highlightColor
+		Behavior on opacity { NumberAnimation { duration: Kirigami.Units.shortDuration*2 } }
+		color: Kirigami.Theme.highlightColor
 		radius: dayStyle.radius
 		z: todayRect.z - 1
 	}
@@ -170,7 +170,7 @@ MouseArea {
 		id: label
 		anchors {
 			fill: parent
-			margins: units.smallSpacing
+			margins: Kirigami.Units.smallSpacing
 		}
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
@@ -181,9 +181,9 @@ MouseArea {
 		fontSizeMode: Text.HorizontalFit
 		font.pixelSize: {
 			if (today && todayStyle == "bigNumber") {
-				return Math.max(theme.smallestFont.pixelSize, Math.min(Math.floor(dayStyle.height / 2), Math.floor(dayStyle.width * 7/8)))
+				return Math.max(Kirigami.Theme.smallFont.pixelSize, Math.min(Math.floor(dayStyle.height / 2), Math.floor(dayStyle.width * 7/8)))
 			} else {
-				return Math.max(theme.smallestFont.pixelSize, Math.min(Math.floor(dayStyle.height / 3), Math.floor(dayStyle.width * 5/8)))
+				return Math.max(Kirigami.Theme.smallFont.pixelSize, Math.min(Math.floor(dayStyle.height / 3), Math.floor(dayStyle.width * 5/8)))
 			}
 		}
 		// This is to avoid the "Both point size and
@@ -193,19 +193,19 @@ MouseArea {
 			if (today) {
 				if (todayStyle == "bigNumber") {
 					if (dayStyle.containsMouse || dayStyle.selected) {
-						return theme.textColor
+						return Kirigami.Theme.textColor
 					} else {
-						return theme.highlightColor
+						return Kirigami.Theme.highlightColor
 					}
 				} else { // todayStyle == "theme"
-					return theme.backgroundColor
+					return Kirigami.Theme.backgroundColor
 				}
 			} else {
-				return theme.textColor
+				return Kirigami.Theme.textColor
 			}
 		}
 		Behavior on color {
-			ColorAnimation { duration: units.shortDuration * 2 }
+			ColorAnimation { duration: Kirigami.Units.shortDuration * 2 }
 		}
 	}
 
