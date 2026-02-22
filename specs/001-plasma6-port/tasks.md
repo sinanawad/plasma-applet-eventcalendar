@@ -60,9 +60,9 @@
 - [ ] T016 [P] [US1] Verify/fix `install` script — ensure it uses `kpackagetool6` and `kreadconfig6` (or Python JSON parsing) in ./install
 - [ ] T017 [P] [US1] Verify/fix `uninstall` script — ensure it uses `kpackagetool6` in ./uninstall
 - [ ] T018 [P] [US1] Verify/fix `update` script — ensure it uses `kpackagetool6` and removes `kstart5` references (use `kstart` or `systemctl --user restart plasma-plasmashell`) in ./update
-- [ ] T019 [US1] Update `package/translate/merge` script to extract translatable strings from `package/metadata.json` (KPlugin.Name, KPlugin.Description) instead of `metadata.desktop`
-- [ ] T020 [US1] Update `package/translate/build` script to inject translations as `KPlugin.Name[locale]` / `KPlugin.Description[locale]` keys into `package/metadata.json` and generate `.mo` files in `package/contents/locale/`
-- [ ] T021 [US1] Verify all 20+ existing `.po` files in `package/translate/` produce valid `.mo` files and metadata.json contains all translated Name/Description fields
+- [ ] T019 [US1] **DEFERRED** (translations) Update `package/translate/merge` script to extract translatable strings from `package/metadata.json` (KPlugin.Name, KPlugin.Description) instead of `metadata.desktop`
+- [ ] T020 [US1] **DEFERRED** (translations) Update `package/translate/build` script to inject translations as `KPlugin.Name[locale]` / `KPlugin.Description[locale]` keys into `package/metadata.json` and generate `.mo` files in `package/contents/locale/`
+- [ ] T021 [US1] **DEFERRED** (translations) Verify all 20+ existing `.po` files in `package/translate/` produce valid `.mo` files and metadata.json contains all translated Name/Description fields
 
 **Checkpoint**: `sh ./build` succeeds. `kpackagetool6 -t Plasma/Applet -i package.plasmoid` installs without errors. Widget visible in widget list.
 
@@ -246,7 +246,7 @@
 - [ ] T098 [US9] Complete signal handler modernization: audit ALL remaining QML files for `onSignalName:` without `function` keyword and update to `function onSignalName()` syntax
 - [ ] T099 [US9] Verify `package/contents/ui/calendars/DebugCalendarManager.qml` and `package/contents/ui/calendars/DebugGoogleCalendarManager.qml` work for development testing
 - [ ] T100 [US9] Verify all `package/contents/ui/calendars/GoogleCalendarTests.js` test helpers work
-- [ ] T101 [US9] Verify all 20+ translations display correctly — run `sh ./build` and check `.mo` files are bundled, test with `LANGUAGE=de plasmoidviewer -a org.kde.plasma.eventcalendar`
+- [ ] T101 [US9] **DEFERRED** (translations) Verify all 20+ translations display correctly — run `sh ./build` and check `.mo` files are bundled, test with `LANGUAGE=de plasmoidviewer -a org.kde.plasma.eventcalendar`
 - [ ] T102 [US9] Verify config key compatibility — install on system with existing Plasma 5 config and verify settings are preserved, including that existing Google OAuth tokens from Plasma 5 still work without re-authorization
 - [ ] T103 [US9] Full integration test: verify all 11 success criteria (SC-001 through SC-011) from spec.md pass
 - [ ] T105 [US9] Add graceful degradation when `plasma5support` package is not installed — DataSource-dependent features (time, command execution) should display a meaningful error message rather than crash the widget
