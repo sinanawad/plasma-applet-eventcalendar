@@ -100,22 +100,22 @@
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Port `package/contents/ui/PopupView.qml` — fix PC2 remnants, verify single/dual column layout, update signal handlers
-- [ ] T034 [US3] Port `package/contents/ui/MonthView.qml` — update rendering, signal handlers, verify month navigation
-- [ ] T035 [US3] Port `package/contents/ui/DaysCalendar.qml` — update day cell grid rendering, replace any PC2 components
-- [ ] T036 [P] [US3] Port `package/contents/ui/DayDelegate.qml` — update individual day cell rendering, event badge display
-- [ ] T037 [P] [US3] Port `package/contents/ui/DateSelector.qml` — update date picker controls
-- [ ] T038 [P] [US3] Port `package/contents/ui/DateTimeSelector.qml` — update date/time picker controls
-- [ ] T039 [US3] Port `package/contents/ui/AgendaView.qml` — replace `flickableItem` with PC3 `ScrollView`, update signal handlers, fix scrolling
-- [ ] T040 [P] [US3] Port `package/contents/ui/AgendaModel.qml` — update data model, signal handlers
-- [ ] T041 [P] [US3] Port `package/contents/ui/AgendaListItem.qml` — update list item rendering
-- [ ] T042 [P] [US3] Port `package/contents/ui/AgendaEventItem.qml` — update event item display
-- [ ] T043 [P] [US3] Port `package/contents/ui/AgendaTaskItem.qml` — update task item display
-- [ ] T044 [US3] Port `package/contents/ui/EventModel.qml` — update event data model, signal handlers
-- [ ] T045 [P] [US3] Port `package/contents/ui/EventPropertyIcon.qml` — update icon rendering
-- [ ] T046 [P] [US3] Port `package/contents/ui/LinkRect.qml` and `package/contents/ui/LinkText.qml` — update link components
-- [ ] T047 [P] [US3] Port badge components in `package/contents/ui/badges/` — update all badge QML files
-- [ ] T048 [US3] Port `package/contents/ui/CalendarSelector.qml` — update calendar source selector
+- [x] T033 [US3] Port `package/contents/ui/PopupView.qml` — Fixed Connections handler onDateSelected to function syntax
+- [x] T034 [US3] Port `package/contents/ui/MonthView.qml` — Already clean from Zren (uses PC3, i18nd for translations deferred)
+- [x] T035 [US3] Port `package/contents/ui/DaysCalendar.qml` — Replaced PlasmaCore.theme singleton with property-based theme change detection, fixed onActivateHighlightedItem Connections handler
+- [x] T036 [P] [US3] Port `package/contents/ui/DayDelegate.qml` — Added PlasmaCalendar import, fixed Calendar.Match* enum references
+- [x] T037 [P] [US3] Port `package/contents/ui/DateSelector.qml` — Already clean (uses Qt5Compat.GraphicalEffects, TODO noted for future)
+- [x] T038 [P] [US3] Port `package/contents/ui/DateTimeSelector.qml` — Already clean, no changes needed
+- [x] T039 [US3] Port `package/contents/ui/AgendaView.qml` — Fixed ScrollView (flickableItem→contentItem, viewport→availableWidth/Height), fixed scrollbarWidth, fixed Connections handlers
+- [x] T040 [P] [US3] Port `package/contents/ui/AgendaModel.qml` — Pure JS logic, already Qt 6 compatible
+- [x] T041 [P] [US3] Port `package/contents/ui/AgendaListItem.qml` — Fixed 3 Connections handlers (onLoaded, onDateChanged, onPopulatingChanged) to function syntax
+- [x] T042 [P] [US3] Port `package/contents/ui/AgendaEventItem.qml` — Fixed 2 Connections handlers (onLoaded, onMinuteChanged) to function syntax
+- [x] T043 [P] [US3] Port `package/contents/ui/AgendaTaskItem.qml` — Fixed 2 Connections handlers (onLoaded, onMinuteChanged) to function syntax
+- [x] T044 [US3] Port `package/contents/ui/EventModel.qml` — Direct signal handlers already valid in Qt 6, no changes needed
+- [x] T045 [P] [US3] Port `package/contents/ui/EventPropertyIcon.qml` — Already clean, no changes needed
+- [x] T046 [P] [US3] Port `package/contents/ui/LinkRect.qml` and `package/contents/ui/LinkText.qml` — Removed unused PlasmaCore import from LinkText.qml; LinkRect kept PlasmaCore.ToolTipArea (still valid)
+- [x] T047 [P] [US3] Port badge components in `package/contents/ui/badges/` — All badge files already clean, no changes needed
+- [x] T048 [US3] Port `package/contents/ui/CalendarSelector.qml` — Already clean, no changes needed
 
 **Checkpoint**: Popup opens with calendar and agenda. Today is highlighted. Month navigation works. Date selection scrolls agenda.
 

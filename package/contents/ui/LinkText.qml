@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
-import org.kde.plasma.core as PlasmaCore
 
 Label {
 	linkColor: Kirigami.Theme.highlightColor

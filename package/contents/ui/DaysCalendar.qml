@@ -295,12 +295,9 @@ Item {
 		EventCountBadge {}
 	}
 
-	Connections {
-		target: theme
-		onTextColorChanged: {
-			canvas.requestPaint()
-		}
-	}
+	// Repaint canvas when theme changes (PlasmaCore.theme singleton removed in Plasma 6)
+	property color _themeTextColor: Kirigami.Theme.textColor
+	on_ThemeTextColorChanged: canvas.requestPaint()
 
 	Column {
 		id: weeksColumn
@@ -422,7 +419,7 @@ Item {
 
 				Connections {
 					target: daysCalendar
-					onActivateHighlightedItem: {
+					function onActivateHighlightedItem() {
 						if (delegate.containsMouse) {
 							delegate.clicked(null)
 						}
