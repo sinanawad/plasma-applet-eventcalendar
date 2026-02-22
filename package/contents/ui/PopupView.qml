@@ -260,7 +260,7 @@ MouseArea {
 				anchors.fill: parent
 				anchors.margins: Kirigami.Units.smallSpacing
 				color: "transparent"
-				border.color: Kirigami.Theme.buttonBackgroundColor
+				border.color: Kirigami.Theme.disabledTextColor
 				border.width: 1
 
 				readonly property string message: {

@@ -72,8 +72,8 @@ QtObject {
 	// ]
 
 	readonly property string networkStatus: {
-		if (plasmaNMStatusLoader.status == Loader.Ready) {
-			return plasmaNMStatusLoader.item.networkStatus
+		if (plasmaNMStatusLoader.status == Loader.Ready && plasmaNMStatusLoader.item) {
+			return plasmaNMStatusLoader.item.networkStatus || ''
 		} else {
 			return ''
 		}

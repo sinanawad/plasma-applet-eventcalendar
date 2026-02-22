@@ -100,9 +100,7 @@ PlasmoidItem {
 			property int wheelDelta: 0
 
 			onClicked: {
-				if (mouse.button == Qt.LeftButton) {
-					plasmoid.expanded = !plasmoid.expanded
-				}
+				root.expanded = !root.expanded
 			}
 
 			onWheel: {
@@ -155,8 +153,8 @@ PlasmoidItem {
 			}
 		}
 
-		property bool isExpanded: plasmoid.expanded
-		function onIsExpandedChanged() {
+		property bool isExpanded: root.expanded
+		onIsExpandedChanged: {
 			logger.debug('isExpanded', isExpanded)
 			if (isExpanded) {
 				updateToday()
@@ -187,7 +185,7 @@ PlasmoidItem {
 		}
 
 		Binding {
-			target: plasmoid
+			target: root
 			property: "hideOnWindowDeactivate"
 			value: !plasmoid.configuration.pin
 		}

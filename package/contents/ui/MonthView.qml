@@ -407,16 +407,16 @@ PinchArea {
 			onHeaderClicked: {
 				stack.push(yearOverview)
 			}
-			onActivated: {
-				var rowNumber = Math.floor(index / columns)
+			onActivated: (idx, dateData, itm) => {
+				var rowNumber = Math.floor(idx / columns)
 				week = 1 + calendarBackend.weeksModel[rowNumber]
-				root.date = date
-				var dt = new Date(date.yearNumber, date.monthNumber - 1, date.dayNumber)
+				root.date = dateData
+				var dt = new Date(dateData.yearNumber, dateData.monthNumber - 1, dateData.dayNumber)
 				root.setSelectedDate(dt)
 				root.dateClicked(dt)
 			}
-			onDoubleClicked: {
-				root.dayDoubleClicked(date)
+			onDoubleClicked: (idx, dateData, itm) => {
+				root.dayDoubleClicked(dateData)
 			}
 		}
 	}
@@ -442,8 +442,8 @@ PinchArea {
 				updateDecadeOverview()
 				stack.push(decadeOverview)
 			}
-			onActivated: {
-				calendarBackend.goToMonth(date.monthNumber)
+			onActivated: (idx, dateData, itm) => {
+				calendarBackend.goToMonth(dateData.monthNumber)
 				stack.pop()
 			}
 		}
@@ -471,8 +471,8 @@ PinchArea {
 
 			onPrevious: calendarBackend.previousDecade()
 			onNext: calendarBackend.nextDecade()
-			onActivated: {
-				calendarBackend.goToYear(date.yearNumber)
+			onActivated: (idx, dateData, itm) => {
+				calendarBackend.goToYear(dateData.yearNumber)
 				stack.pop()
 			}
 		}
