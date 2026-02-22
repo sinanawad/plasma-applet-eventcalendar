@@ -1,29 +1,13 @@
-// Version 6
+// Version 8
 
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.0
-import QtQuick.Layouts 1.0
-import org.kde.kirigami 2.0 as Kirigami
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import org.kde.kcmutils as KCMUtils
 
-ColumnLayout {
+KCMUtils.SimpleKCM {
 	id: page
-
-	SystemPalette { id: systemPalette }
-
-	Component {
-		id: textFieldStyle
-		TextFieldStyle {
-			textColor: control.activeFocus ? systemPalette.text : systemPalette.text
-
-			background: Rectangle {
-				radius: 2
-				color: control.activeFocus ? systemPalette.base : "transparent"
-				border.color: control.activeFocus ? systemPalette.highlight : "transparent"
-				border.width: 1
-			}
-		}
-	}
 
 	ScrollView {
 		Layout.fillWidth: true
@@ -52,15 +36,10 @@ ColumnLayout {
 			Component {
 				id: numberControl
 				SpinBox {
-					value: modelValue
-					readonly property bool isInteger: modelConfigType === 'uint' || modelConfigType === 'int' || Number.isInteger(modelValue)
-					decimals: isInteger ? 0 : 3
-					maximumValue: Number.MAX_SAFE_INTEGER
-					Component.onCompleted: {
-						valueChanged.connect(function() {
-							plasmoid.configuration[modelKey] = value
-						})
-					}
+					value: Math.round(modelValue)
+					to: 2147483647
+					from: -2147483648
+					onValueModified: plasmoid.configuration[modelKey] = value
 				}
 			}
 
@@ -107,7 +86,7 @@ ColumnLayout {
 			}
 
 			delegate: RowLayout {
-				width: parent.width
+				width: parent ? parent.width : implicitWidth
 
 				function valueToString(val) {
 					return (typeof val === 'undefined' || val === null) ? '' : ''+val
@@ -115,20 +94,15 @@ ColumnLayout {
 				readonly property var configDefaultValue: plasmoid.configuration[model.key + 'Default']
 				readonly property bool isDefault: valueToString(model.value) == valueToString(model.defaultValue) || valueToString(model.value) == valueToString(configDefaultValue)
 
-				TextField {
+				Label {
 					Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-					// Layout.fillWidth: true
 					text: model.key
-					readOnly: true
-					style: textFieldStyle
 					Layout.preferredWidth: 200 * Kirigami.Units.devicePixelRatio
 					font.bold: !isDefault
 				}
-				TextField {
+				Label {
 					Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 					text: model.stringType || model.configType || model.valueType
-					readOnly: true
-					style: textFieldStyle
 					Layout.preferredWidth: 80 * Kirigami.Units.devicePixelRatio
 				}
 				Loader {
@@ -152,10 +126,10 @@ ColumnLayout {
 								return stringControl
 							}
 						}
-						
+
 					}
 				}
-				
+
 			}
 		}
 	}
@@ -285,7 +259,7 @@ ColumnLayout {
 				}
 
 				var value = plasmoid.configuration[key]
-				
+
 				configTableModel.append({
 					key: key,
 					valueType: typeof value,
@@ -301,7 +275,7 @@ ColumnLayout {
 
 	Connections {
 		target: configDefaults
-		onUpdated: {
+		function onUpdated() {
 			var keys = configTableModel.keys
 			// Assume the default main.xml's order and plasmoid.configuration is the same (we probably shouldn't).
 			for (var i = 0; i < keys.length; i++) {
@@ -330,7 +304,7 @@ ColumnLayout {
 
 	Connections {
 		target: plasmoid.configuration
-		onValueChanged: {
+		function onValueChanged(key, value) {
 			var keyIndex = configTableModel.keys.indexOf(key)
 			if (keyIndex >= 0) {
 				configTableModel.setProperty(keyIndex, 'value', value)

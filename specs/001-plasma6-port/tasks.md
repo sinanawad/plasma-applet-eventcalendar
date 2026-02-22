@@ -129,21 +129,21 @@
 
 ### Implementation for User Story 4
 
-- [ ] T049 [US4] Port `package/contents/ui/lib/ConfigPage.qml` — change root element from `Item` to `KCM.SimpleKCM`, add `import org.kde.kcmutils as KCM`
-- [ ] T050 [US4] Port `package/contents/ui/config/ConfigGeneral.qml` — update to KCM.SimpleKCM root, replace PC2 components with PC3
-- [ ] T051 [P] [US4] Port `package/contents/ui/config/ConfigLayout.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T052 [P] [US4] Port `package/contents/ui/config/ConfigTimezones.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T053 [P] [US4] Port `package/contents/ui/config/ConfigCalendar.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T054 [P] [US4] Port `package/contents/ui/config/ConfigAgenda.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T055 [P] [US4] Port `package/contents/ui/config/ConfigEvents.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T056 [P] [US4] Port `package/contents/ui/config/ConfigICal.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T057 [P] [US4] Port `package/contents/ui/config/ConfigGoogleCalendar.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T058 [P] [US4] Port `package/contents/ui/config/ConfigWeather.qml` — update to KCM.SimpleKCM root, replace PC2 components
-- [ ] T059 [US4] Port config utility components: `package/contents/ui/lib/ConfigCheckBox.qml`, `ConfigComboBox.qml`, `ConfigColor.qml`, `ConfigDimension.qml`, `ConfigFontFamily.qml`, `ConfigNotification.qml`, `ConfigRadioButtonGroup.qml`, `ConfigSection.qml`, `ConfigSlider.qml`, `ConfigSound.qml`, `ConfigSpinBox.qml`, `ConfigString.qml`, `ConfigAdvanced.qml` — update all PC2 references to PC3
-- [ ] T060 [P] [US4] Port `package/contents/ui/lib/ColorGrid.qml` — update color picker component
-- [ ] T061 [P] [US4] Port `package/contents/ui/config/ColorTextButton.qml` — update color button component
-- [ ] T062 [P] [US4] Port `package/contents/ui/config/HeaderText.qml` and `package/contents/ui/config/LockIcon.qml` — update header/lock components
-- [ ] T063 [US4] Port `package/contents/ui/config/ConfigSerializedString.qml` — update serialized string config handling
+- [X] T049 [US4] Port `package/contents/ui/lib/ConfigPage.qml` — change root element from `Item` to `KCM.SimpleKCM`, add `import org.kde.kcmutils as KCM`
+- [X] T050 [US4] Port `package/contents/ui/config/ConfigGeneral.qml` — update to KCM.SimpleKCM root, replace PC2 components with PC3
+- [X] T051 [P] [US4] Port `package/contents/ui/config/ConfigLayout.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T052 [P] [US4] Port `package/contents/ui/config/ConfigTimezones.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T053 [P] [US4] Port `package/contents/ui/config/ConfigCalendar.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T054 [P] [US4] Port `package/contents/ui/config/ConfigAgenda.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T055 [P] [US4] Port `package/contents/ui/config/ConfigEvents.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T056 [P] [US4] Port `package/contents/ui/config/ConfigICal.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T057 [P] [US4] Port `package/contents/ui/config/ConfigGoogleCalendar.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T058 [P] [US4] Port `package/contents/ui/config/ConfigWeather.qml` — update to KCM.SimpleKCM root, replace PC2 components
+- [X] T059 [US4] Port config utility components: `package/contents/ui/lib/ConfigCheckBox.qml`, `ConfigComboBox.qml`, `ConfigColor.qml`, `ConfigDimension.qml`, `ConfigFontFamily.qml`, `ConfigNotification.qml`, `ConfigRadioButtonGroup.qml`, `ConfigSection.qml`, `ConfigSlider.qml`, `ConfigSound.qml`, `ConfigSpinBox.qml`, `ConfigString.qml`, `ConfigAdvanced.qml` — update all PC2 references to PC3
+- [X] T060 [P] [US4] Port `package/contents/ui/lib/ColorGrid.qml` — update color picker component
+- [X] T061 [P] [US4] Port `package/contents/ui/config/ColorTextButton.qml` — update color button component
+- [X] T062 [P] [US4] Port `package/contents/ui/config/HeaderText.qml` and `package/contents/ui/config/LockIcon.qml` — update header/lock components
+- [X] T063 [US4] Port `package/contents/ui/config/ConfigSerializedString.qml` — update serialized string config handling
 
 **Checkpoint**: All 9 config tabs open without errors, controls render, settings persist across close/reopen.
 

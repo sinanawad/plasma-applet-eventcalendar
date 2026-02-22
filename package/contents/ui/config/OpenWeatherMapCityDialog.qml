@@ -1,20 +1,27 @@
-import QtQuick 2.1
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.4
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 import org.kde.kitemmodels as KItemModels
 
 import ".."
 import "../lib"
 import "../lib/Requests.js" as Requests
 
-Dialog {
+Window {
 	id: chooseCityDialog
 	title: i18n("Select city")
 
 	width: 500
 	height: 600
 	property bool loadingCityList: false
+
+	signal accepted()
+	signal rejected()
+
+	function open() {
+		show()
+	}
 
 	Logger {
 		id: logger
@@ -27,29 +34,10 @@ Dialog {
 		// sourceModel: cityListModel // Link after populating cityListModel so the UI doesn't freeze.
 		filterRoleName: 'name'
 		sortRoleName: 'name'
-		sortCaseSensitivity: Qt.CaseInsensitive 
+		sortCaseSensitivity: Qt.CaseInsensitive
 	}
 
 	property string selectedCityId: ''
-	Connections {
-		target: tableView.selection
-		
-		onSelectionChanged: {
-			tableView.selection.forEach(function(row) {
-				var city = filteredCityListModel.get(row)
-				chooseCityDialog.selectedCityId = city.id
-				// console.log('selectedCityId', city.id, city.name)
-			})
-		}
-	}
-	Connections {
-		target: filteredCityListModel
-		
-		function onFilterStringChanged() {
-			tableView.selection.clear()
-			chooseCityDialog.selectedCityId = ''
-		}
-	}
 
 	Timer {
 		id: debouceApplyFilter
@@ -57,9 +45,10 @@ Dialog {
 		onTriggered: chooseCityDialog.applyCityListSearch()
 	}
 
-
 	ColumnLayout {
 		anchors.fill: parent
+		anchors.margins: Kirigami.Units.largeSpacing
+
 		LinkText {
 			text: i18n("Fetched from <a href=\"%1\">%1</a>", "https://openweathermap.org/find")
 		}
@@ -70,37 +59,80 @@ Dialog {
 			placeholderText: i18n("Search")
 			onTextChanged: debouceApplyFilter.restart()
 		}
-		TableView {
-			id: tableView
+		ScrollView {
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			Layout.minimumHeight: 200
-			model: filteredCityListModel
 
-			TableViewColumn {
-				width: 240
-				role: 'name'
-				title: i18n("Name")
-			}
-			TableViewColumn {
-				width: 100
-				role: 'id'
-				title: i18n("Id")
-			}
-			TableViewColumn {
-				width: 100
-				role: 'id'
-				title: i18n("City Webpage")
-				delegate: LinkText {
-					text: '<a href="https://openweathermap.org/city/' + styleData.value + '">' + i18n("Open Link") + '</a>'
-					linkColor: styleData.selected ? theme.textColor : theme.highlightColor
+			ListView {
+				id: listView
+				clip: true
+				model: filteredCityListModel
+
+				header: RowLayout {
+					width: listView.width
+					spacing: Kirigami.Units.smallSpacing
+					Label {
+						text: i18n("Name")
+						font.bold: true
+						Layout.fillWidth: true
+						Layout.preferredWidth: 240
+					}
+					Label {
+						text: i18n("Id")
+						font.bold: true
+						Layout.preferredWidth: 100
+					}
+					Label {
+						text: i18n("City Webpage")
+						font.bold: true
+						Layout.preferredWidth: 100
+					}
+				}
+
+				delegate: ItemDelegate {
+					width: listView.width
+					highlighted: chooseCityDialog.selectedCityId === model.id
+					onClicked: chooseCityDialog.selectedCityId = model.id
+
+					contentItem: RowLayout {
+						spacing: Kirigami.Units.smallSpacing
+						Label {
+							text: model.name
+							Layout.fillWidth: true
+							Layout.preferredWidth: 240
+							elide: Text.ElideRight
+						}
+						Label {
+							text: model.id
+							Layout.preferredWidth: 100
+						}
+						LinkText {
+							Layout.preferredWidth: 100
+							text: '<a href="https://openweathermap.org/city/' + model.id + '">' + i18n("Open Link") + '</a>'
+						}
+					}
+				}
+
+				BusyIndicator {
+					anchors.centerIn: parent
+					running: visible
+					visible: chooseCityDialog.loadingCityList
 				}
 			}
+		}
 
-			BusyIndicator {
-				anchors.centerIn: parent
-				running: visible
-				visible: chooseCityDialog.loadingCityList
+		DialogButtonBox {
+			Layout.fillWidth: true
+			standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+			onAccepted: {
+				chooseCityDialog.accepted()
+				chooseCityDialog.close()
+			}
+			onRejected: {
+				chooseCityDialog.selectedCityId = ''
+				chooseCityDialog.rejected()
+				chooseCityDialog.close()
 			}
 		}
 	}
@@ -143,7 +175,7 @@ Dialog {
 
 				// link after populating so that each append() doesn't attempt to rebuild the UI.
 				filteredCityListModel.sourceModel = cityListModel
-				
+
 				chooseCityDialog.loadingCityList = false
 			})
 		}
@@ -151,7 +183,7 @@ Dialog {
 
 	function fetchCityList(args, callback) {
 		if (!args.appId) return callback('OpenWeatherMap AppId not set')
-		
+
 		var url = 'https://api.openweathermap.org/data/2.5/'
 		url += 'find?q=' + encodeURIComponent(args.q)
 		url += '&type=like'

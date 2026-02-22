@@ -1,9 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Controls.Styles 1.1
-import QtQuick.Controls 2.0 as QQC2
-import QtQuick.Layouts 1.1
-import org.kde.kirigami 2.0 as Kirigami
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 
 import ".."
 import "../lib"
@@ -143,9 +141,9 @@ ConfigPage {
 					}
 				}
 
-				QQC2.Menu {
+				Menu {
 					id: contextMenu
-					QQC2.MenuItem {
+					MenuItem {
 						text: i18n("Copy Link")
 						onTriggered: clipboardHelper.copyText(googleLoginManager.authorizationCodeUrl)
 					}
@@ -195,7 +193,7 @@ ConfigPage {
 		}
 
 		Button {
-			iconName: "view-refresh"
+			icon.name: "view-refresh"
 			text: i18n("Refresh")
 			onClicked: googleLoginManager.updateCalendarList()
 		}
@@ -227,32 +225,27 @@ ConfigPage {
 
 			Repeater {
 				model: calendarsModel
-				delegate: CheckBox {
-					text: model.name
-					checked: model.show
-					style: CheckBoxStyle {
-						label: RowLayout {
-							Rectangle {
-								Layout.fillHeight: true
-								Layout.preferredWidth: height
-								color: model.backgroundColor
-							}
-							Label {
-								id: labelText
-								text: control.text
-							}
-							LockIcon {
-								Layout.fillHeight: true
-								Layout.preferredWidth: height
-								visible: model.isReadOnly
-							}
+				delegate: RowLayout {
+					width: parent ? parent.width : implicitWidth
+					CheckBox {
+						checked: model.show
+						onClicked: {
+							calendarsModel.setProperty(index, 'show', checked)
+							calendarsModel.calendarsShownChanged()
 						}
-						
 					}
-
-					onClicked: {
-						calendarsModel.setProperty(index, 'show', checked)
-						calendarsModel.calendarsShownChanged()
+					Rectangle {
+						implicitHeight: Kirigami.Units.gridUnit
+						implicitWidth: height
+						color: model.backgroundColor
+					}
+					Label {
+						text: model.name
+					}
+					LockIcon {
+						implicitHeight: Kirigami.Units.gridUnit
+						implicitWidth: height
+						visible: model.isReadOnly
 					}
 				}
 			}
@@ -278,7 +271,7 @@ ConfigPage {
 		}
 
 		Button {
-			iconName: "view-refresh"
+			icon.name: "view-refresh"
 			text: i18n("Refresh")
 			onClicked: googleLoginManager.updateTasklistList()
 		}
@@ -310,32 +303,27 @@ ConfigPage {
 
 			Repeater {
 				model: tasklistsModel
-				delegate: CheckBox {
-					text: model.name
-					checked: model.show
-					style: CheckBoxStyle {
-						label: RowLayout {
-							Rectangle {
-								Layout.fillHeight: true
-								Layout.preferredWidth: height
-								color: model.backgroundColor
-							}
-							Label {
-								id: labelText
-								text: control.text
-							}
-							LockIcon {
-								Layout.fillHeight: true
-								Layout.preferredWidth: height
-								visible: model.isReadOnly
-							}
+				delegate: RowLayout {
+					width: parent ? parent.width : implicitWidth
+					CheckBox {
+						checked: model.show
+						onClicked: {
+							tasklistsModel.setProperty(index, 'show', checked)
+							tasklistsModel.tasklistsShownChanged()
 						}
-						
 					}
-
-					onClicked: {
-						tasklistsModel.setProperty(index, 'show', checked)
-						tasklistsModel.tasklistsShownChanged()
+					Rectangle {
+						implicitHeight: Kirigami.Units.gridUnit
+						implicitWidth: height
+						color: model.backgroundColor
+					}
+					Label {
+						text: model.name
+					}
+					LockIcon {
+						implicitHeight: Kirigami.Units.gridUnit
+						implicitWidth: height
+						visible: model.isReadOnly
 					}
 				}
 			}

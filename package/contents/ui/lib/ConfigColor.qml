@@ -1,13 +1,10 @@
-// Version 5
+// Version 6
 
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
-import QtQuick.Dialogs 1.2
-import QtQuick.Window 2.2
-import org.kde.kirigami 2.0 as Kirigami
-
-import ".."
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
+import org.kde.kirigami as Kirigami
 
 RowLayout {
 	id: configColor
@@ -18,7 +15,7 @@ RowLayout {
 	property alias label: label.text
 	property alias labelColor: label.color
 	property alias horizontalAlignment: label.horizontalAlignment
-	property alias showAlphaChannel: dialog.showAlphaChannel
+	property bool showAlphaChannel: true
 	property color buttonOutlineColor: {
 		if (valueColor.r + valueColor.g + valueColor.b > 0.5) {
 			return "#BB000000" // Black outline
@@ -27,8 +24,8 @@ RowLayout {
 		}
 	}
 
-	property TextField textField: textField
-	property ColorDialog dialog: dialog
+	property var textField: textField
+	property var dialog: dialog
 
 	property string configKey: ''
 	property string defaultColor: ''
@@ -107,15 +104,11 @@ RowLayout {
 
 	ColorDialog {
 		id: dialog
-		visible: false
-		modality: Qt.WindowModal
 		title: configColor.label
-		showAlphaChannel: true
-		color: configColor.valueColor
-		onCurrentColorChanged: {
-			if (visible && color != currentColor) {
-				configColor.value = currentColor
-			}
+		options: configColor.showAlphaChannel ? ColorDialog.ShowAlphaChannel : 0
+		selectedColor: configColor.valueColor
+		onAccepted: {
+			configColor.value = selectedColor
 		}
 	}
 }

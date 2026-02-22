@@ -392,9 +392,17 @@ MouseArea {
 				id: errorMessageWidget
 				anchors.left: parent.left
 				anchors.bottom: parent.bottom
-				anchors.right: refreshButton.left
+				anchors.right: configureButton.left
 				anchors.margins: Kirigami.Units.smallSpacing
 				text: logic.currentErrorMessage
+			}
+
+			PlasmaComponents3.Button {
+				id: configureButton
+				icon.name: 'configure'
+				anchors.bottom: parent.bottom
+				anchors.right: refreshButton.left
+				onClicked: plasmoid.internalAction("configure").trigger()
 			}
 
 			PlasmaComponents3.Button {

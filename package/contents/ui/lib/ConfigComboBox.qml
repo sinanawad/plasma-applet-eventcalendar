@@ -1,8 +1,8 @@
-// Version 5
+// Version 6
 
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 /*
 ** Example:
@@ -32,7 +32,7 @@ RowLayout {
 
 	property string configKey: ''
 	readonly property var currentItem: comboBox.model[comboBox.currentIndex]
-	readonly property string value: currentItem ? currentItem[valueRole] : ""
+	readonly property string value: comboBox.currentValue !== undefined ? String(comboBox.currentValue) : ""
 	readonly property string configValue: configKey ? plasmoid.configuration[configKey] : ""
 	onConfigValueChanged: {
 		if (!comboBox.focus && value != configValue) {
@@ -63,19 +63,16 @@ RowLayout {
 
 	ComboBox {
 		id: comboBox
-		textRole: "text" // Doesn't autodeduce from model if we manually populate it
-		property string valueRole: "value"
+		textRole: "text"
+		valueRole: "value"
 
 		model: []
 
-		onCurrentIndexChanged: {
-			if (typeof model !== 'number' && 0 <= currentIndex && currentIndex < count) {
-				var item = model[currentIndex]
-				if (typeof item !== "undefined") {
-					var val = item[valueRole]
-					if (configKey && (typeof val !== "undefined") && populated) {
-						plasmoid.configuration[configKey] = val
-					}
+		onActivated: {
+			if (configKey && populated) {
+				var val = currentValue
+				if (typeof val !== "undefined") {
+					plasmoid.configuration[configKey] = val
 				}
 			}
 		}
@@ -101,7 +98,7 @@ RowLayout {
 
 	function findValue(val) {
 		for (var i = 0; i < size(); i++) {
-			if (model[i][valueRole] == val) {
+			if (model[i][comboBox.valueRole] == val) {
 				return i
 			}
 		}
