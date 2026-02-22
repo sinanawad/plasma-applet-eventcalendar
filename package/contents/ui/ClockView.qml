@@ -20,6 +20,7 @@
 
 import QtQuick
 import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PlasmaComponents3
 
@@ -31,18 +32,21 @@ Item {
 
 	property int targetHeight: verticalFixedLineHeight
 
+	// Cap auto font size like the Plasma 6 digital clock does
+	property int maxAutoFontHeight: 3 * Kirigami.Theme.defaultFont.pixelSize
+
 	property int horizontalHeight: {
 		if (useFixedHeight) {
 			return fixedHeight
 		} else {
 			if (showLine2) {
-				// DigitalClock default
-				var timeHeight = clock.height * 0.56
+				// DigitalClock default, capped by theme font size
+				var timeHeight = Math.min(clock.height * 0.56, maxAutoFontHeight)
 				var dateHeight = timeHeight * 0.8
 				return timeHeight + dateHeight
 			} else {
-				// DigitalClock default
-				var timeHeight = clock.height * 0.71
+				// DigitalClock default, capped by theme font size
+				var timeHeight = Math.min(clock.height * 0.71, maxAutoFontHeight)
 				return timeHeight
 			}
 		}
@@ -161,6 +165,8 @@ Item {
 			PropertyChanges { target: clock
 				targetHeight: clock.horizontalHeight
 				width: clock.fixedWidth
+				Layout.fillHeight: true
+				Layout.fillWidth: false
 				Layout.minimumWidth: clock.fixedWidth
 				Layout.preferredWidth: clock.fixedWidth
 			}

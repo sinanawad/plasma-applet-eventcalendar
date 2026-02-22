@@ -4,7 +4,7 @@ import "./ErrorType.js" as ErrorType
 import "./weather/WeatherApi.js" as WeatherApi
 
 Item {
-	readonly property Item popup: root.Plasmoid.fullRepresentationItem
+	property Item popup: root.Plasmoid.fullRepresentationItem ?? null
 
 	//--- Weather
 	property var dailyWeatherData: { "list": [] }

@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasma5support as Plasma5Support
 
 Item {
@@ -31,7 +30,7 @@ Item {
 		engine: "time"
 		connectedSources: timeModel.allTimezones
 		interval: 1000
-		intervalAlignment: PlasmaCore.Types.NoAlignment
+		intervalAlignment: Plasma5Support.Types.NoAlignment
 		function onNewData(sourceName) {
 			if (sourceName === 'Local') {
 				timeModel.tick()
