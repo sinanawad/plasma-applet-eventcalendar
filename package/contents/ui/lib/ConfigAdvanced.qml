@@ -144,7 +144,7 @@ KCMUtils.SimpleKCM {
 
 		property bool loading: false
 		property bool error: false
-		property string source: plasmoid.file("", "config/main.xml")
+		property string source: Qt.resolvedUrl("../../config/main.xml")
 
 		signal updated()
 

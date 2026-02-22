@@ -4,7 +4,7 @@ import "./ErrorType.js" as ErrorType
 import "./weather/WeatherApi.js" as WeatherApi
 
 Item {
-	property Item popup: root.Plasmoid.fullRepresentationItem ?? null
+	property Item popup: root.popupItem
 
 	//--- Weather
 	property var dailyWeatherData: { "list": [] }
@@ -93,7 +93,7 @@ Item {
 	function deferredUpdateWeather() {
 		logic.updateDailyWeather()
 
-		if (popup.showMeteogram) {
+		if (popup && popup.showMeteogram) {
 			logic.updateHourlyWeather()
 		}
 	}

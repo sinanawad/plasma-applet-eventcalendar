@@ -10,6 +10,8 @@ import "./weather/WeatherApi.js" as WeatherApi
 MouseArea {
 	id: popup
 
+	Component.onCompleted: root.popupItem = popup
+
 	onClicked: focus = true
 
 	property int padding: 0 // Assigned in main.qml

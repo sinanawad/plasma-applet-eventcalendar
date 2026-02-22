@@ -30,6 +30,7 @@ PlasmoidItem {
 
 	property alias eventModel: eventModel
 	property alias agendaModel: agendaModel
+	property Item popupItem: null
 	
 	TimeModel { id: timeModel }
 	TimerModel { id: timerModel }
