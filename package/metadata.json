@@ -45,7 +45,6 @@
 		"Version": "76",
 		"Website": "https://github.com/Zren/plasma-applet-eventcalendar"
 	},
-	"X-KDE-PluginInfo-KdeStoreId": "998901",
 	"X-Plasma-API-Minimum-Version": "6.0",
 	"X-Plasma-Provides": [
 		"org.kde.plasma.time",

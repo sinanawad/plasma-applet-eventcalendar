@@ -19,9 +19,9 @@
 
 **Purpose**: Establish the working branch by merging Zren's upstream/plasma6 changes as the starting point.
 
-- [ ] T001 Merge Zren's `upstream/plasma6` branch into `001-plasma6-port` branch, resolving any conflicts with master
-- [ ] T002 Remove `package/metadata.desktop` (replaced by `package/metadata.json` from Zren's branch)
-- [ ] T003 Verify `package/metadata.json` contains correct fields: KPlugin.Id = `org.kde.plasma.eventcalendar`, KPlugin.Version matches current, KPackageStructure = `Plasma/Applet`, X-Plasma-API-Minimum-Version = `6.0`
+- [x] T001 Merge Zren's `upstream/plasma6` branch into `001-plasma6-port` branch, resolving any conflicts with master
+- [x] T002 Remove `package/metadata.desktop` (replaced by `package/metadata.json` from Zren's branch)
+- [x] T003 Verify `package/metadata.json` contains correct fields: KPlugin.Id = `org.kde.plasma.eventcalendar`, KPlugin.Version matches current, KPackageStructure = `Plasma/Applet`, X-Plasma-API-Minimum-Version = `6.0`
 
 ---
 
