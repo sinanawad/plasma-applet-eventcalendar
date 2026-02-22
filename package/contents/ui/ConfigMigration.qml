@@ -14,7 +14,7 @@ QtObject {
 	}
 
 	Component.onCompleted: migrate()
-	onMigrate: {
+	function onMigrate() {
 		// Modified in: v72
 		if (!plasmoid.configuration.v72Migration) {
 			var oldValue = plasmoid.configuration.enabledCalendarPlugins

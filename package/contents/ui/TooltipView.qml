@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PlasmaComponents3
-import org.kde.plasma.extras as PlasmaExtras
 import org.kde.plasma.private.digitalclock as DigitalClock
 
 Item {
@@ -74,7 +73,7 @@ Item {
 			ColumnLayout {
 				spacing: 0
 
-				PlasmaExtras.Heading {
+				Kirigami.Heading {
 					id: tooltipMaintext
 					level: 3
 					Layout.minimumWidth: Math.min(implicitWidth, preferredTextWidth)

@@ -32,7 +32,7 @@ Item {
 		connectedSources: timeModel.allTimezones
 		interval: 1000
 		intervalAlignment: PlasmaCore.Types.NoAlignment
-		onNewData: {
+		function onNewData(sourceName) {
 			if (sourceName === 'Local') {
 				timeModel.tick()
 			}

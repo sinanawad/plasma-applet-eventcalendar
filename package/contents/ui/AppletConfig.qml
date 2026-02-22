@@ -1,7 +1,5 @@
 import QtQuick
 import org.kde.kirigami as Kirigami
-import org.kde.plasma.core as PlasmaCore
-
 import "lib"
 import "lib/ColorUtil.js" as ColorUtil
 

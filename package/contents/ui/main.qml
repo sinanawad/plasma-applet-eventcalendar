@@ -69,7 +69,7 @@ PlasmoidItem {
 		id: executable
 		engine: "executable"
 		connectedSources: []
-		onNewData: disconnectSource(sourceName) // cmd finished
+		function onNewData(sourceName) { disconnectSource(sourceName) } // cmd finished
 		function getUniqueId(cmd) {
 			// Note: we assume that 'cmd' is executed quickly so that a previous call
 			// with the same 'cmd' has already finished (otherwise no new cmd will be
@@ -156,7 +156,7 @@ PlasmoidItem {
 		}
 
 		property bool isExpanded: plasmoid.expanded
-		onIsExpandedChanged: {
+		function onIsExpandedChanged() {
 			logger.debug('isExpanded', isExpanded)
 			if (isExpanded) {
 				updateToday()
@@ -180,7 +180,7 @@ PlasmoidItem {
 
 		Connections {
 			target: timeModel
-			onDateChanged: {
+			function onDateChanged() {
 				popup.updateToday()
 				logger.debug('root.onDateChanged', timeModel.currentTime, popup.today)
 			}

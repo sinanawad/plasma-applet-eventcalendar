@@ -2,7 +2,7 @@ import QtQuick 2.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.4
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kitemmodels as KItemModels
 
 import "../lib/Requests.js" as Requests
 import ".."
@@ -19,12 +19,12 @@ Dialog {
 
 	ListModel { id: emptyListModel }
 	ListModel { id: cityListModel }
-	PlasmaCore.SortFilterModel {
+	KItemModels.KSortFilterProxyModel {
 		id: filteredCityListModel
 		// sourceModel: cityListModel // Link after populating cityListModel so the UI doesn't freeze.
 		sourceModel: emptyListModel
-		filterRole: 'name'
-		sortRole: 'name'
+		filterRoleName: 'name'
+		sortRoleName: 'name'
 		sortCaseSensitivity: Qt.CaseInsensitive 
 	}
 
@@ -43,7 +43,7 @@ Dialog {
 	Connections {
 		target: filteredCityListModel
 		
-		onFilterRegExpChanged: {
+		function onFilterStringChanged() {
 			tableView.selection.clear()
 			chooseCityDialog.selectedCityId = ''
 		}
@@ -52,7 +52,7 @@ Dialog {
 	Timer {
 		id: debouceApplyFilter
 		interval: 1000
-		onTriggered: filteredCityListModel.filterRegExp = cityNameInput.text
+		onTriggered: filteredCityListModel.filterString = cityNameInput.text
 	}
 
 	onVisibleChanged: {
